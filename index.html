@@ -208,12 +208,15 @@
 
         .theme-option {
             display: inline-block;
-            margin: 0 10px;
-            padding: 8px 16px;
+            margin: 0 5px 10px 5px;
+            padding: 8px 12px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
             border: 2px solid transparent;
+            font-size: 12px;
+            text-align: center;
+            min-width: 80px;
         }
 
         .theme-option:hover {
@@ -307,6 +310,7 @@
             .theme-option {
                 display: block;
                 margin: 5px 0;
+                width: 100%;
             }
             
             .pdf-preview-content {
@@ -356,6 +360,7 @@
         <div class="card theme-selector">
             <div class="card-header">ثيمات التصدير</div>
             <div class="card-body">
+                <!-- Classic Themes -->
                 <div class="theme-option active" data-theme="default" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white;">
                     افتراضي
                 </div>
@@ -365,11 +370,47 @@
                 <div class="theme-option" data-theme="light" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); color: #1e293b;">
                     فاتح
                 </div>
-                <div class="theme-option" data-theme="green" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
-                    أخضر
+                
+                <!-- Professional Themes -->
+                <div class="theme-option" data-theme="corporate" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white;">
+                    مؤسسي
                 </div>
-                <div class="theme-option" data-theme="blue" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white;">
-                    أزرق
+                <div class="theme-option" data-theme="academic" style="background: linear-gradient(135deg, #7c2d12, #9a3412); color: white;">
+                    أكاديمي
+                </div>
+                <div class="theme-option" data-theme="tech" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white;">
+                    تقني
+                </div>
+                
+                <!-- Creative Themes -->
+                <div class="theme-option" data-theme="sunset" style="background: linear-gradient(135deg, #f97316, #ea580c); color: white;">
+                    غروب الشمس
+                </div>
+                <div class="theme-option" data-theme="ocean" style="background: linear-gradient(135deg, #06b6d4, #0891b2); color: white;">
+                    محيط
+                </div>
+                <div class="theme-option" data-theme="forest" style="background: linear-gradient(135deg, #16a34a, #15803d); color: white;">
+                    غابة
+                </div>
+                <div class="theme-option" data-theme="lavender" style="background: linear-gradient(135deg, #c084fc, #a855f7); color: white;">
+                    خزامى
+                </div>
+                <div class="theme-option" data-theme="rose" style="background: linear-gradient(135deg, #f43f5e, #e11d48); color: white;">
+                    وردي
+                </div>
+                <div class="theme-option" data-theme="emerald" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                    زمرد
+                </div>
+                
+                <!-- Monochrome Themes -->
+                <div class="theme-option" data-theme="monochrome" style="background: linear-gradient(135deg, #6b7280, #4b5563); color: white;">
+                    أحادي اللون
+                </div>
+                <div class="theme-option" data-theme="charcoal" style="background: linear-gradient(135deg, #374151, #1f2937); color: white;">
+                    فحم
+                </div>
+                <div class="theme-option" data-theme="silver" style="background: linear-gradient(135deg, #e5e7eb, #d1d5db); color: #374151;">
+                    فضي
                 </div>
             </div>
         </div>
@@ -549,8 +590,9 @@
         const codeContainer = document.getElementById('codeContainer');
         const themeOptions = document.querySelectorAll('.theme-option');
 
-        // Theme configuration
+        // Enhanced Theme configuration with more themes
         const themes = {
+            // Classic Themes
             default: {
                 primary: '#6366f1',
                 secondary: '#8b5cf6',
@@ -569,17 +611,83 @@
                 background: '#f8fafc',
                 textColor: '#1e293b'
             },
-            green: {
+            
+            // Professional Themes
+            corporate: {
+                primary: '#2563eb',
+                secondary: '#1d4ed8',
+                background: '#f8fafc',
+                textColor: '#1e293b'
+            },
+            academic: {
+                primary: '#7c2d12',
+                secondary: '#9a3412',
+                background: '#fef7f0',
+                textColor: '#1e293b'
+            },
+            tech: {
+                primary: '#0ea5e9',
+                secondary: '#0284c7',
+                background: '#f0f9ff',
+                textColor: '#1e293b'
+            },
+            
+            // Creative Themes
+            sunset: {
+                primary: '#f97316',
+                secondary: '#ea580c',
+                background: '#fff7ed',
+                textColor: '#1e293b'
+            },
+            ocean: {
+                primary: '#06b6d4',
+                secondary: '#0891b2',
+                background: '#f0fdfd',
+                textColor: '#1e293b'
+            },
+            forest: {
+                primary: '#16a34a',
+                secondary: '#15803d',
+                background: '#f0fdf4',
+                textColor: '#1e293b'
+            },
+            lavender: {
+                primary: '#c084fc',
+                secondary: '#a855f7',
+                background: '#f5f3ff',
+                textColor: '#1e293b'
+            },
+            rose: {
+                primary: '#f43f5e',
+                secondary: '#e11d48',
+                background: '#fff1f2',
+                textColor: '#1e293b'
+            },
+            emerald: {
                 primary: '#10b981',
                 secondary: '#059669',
                 background: '#f0fdf4',
                 textColor: '#1e293b'
             },
-            blue: {
-                primary: '#3b82f6',
-                secondary: '#1d4ed8',
-                background: '#eff6ff',
+            
+            // Monochrome Themes
+            monochrome: {
+                primary: '#6b7280',
+                secondary: '#4b5563',
+                background: '#f9fafb',
                 textColor: '#1e293b'
+            },
+            charcoal: {
+                primary: '#374151',
+                secondary: '#1f2937',
+                background: '#1f2937',
+                textColor: '#f8fafc'
+            },
+            silver: {
+                primary: '#6b7280',
+                secondary: '#4b5563',
+                background: '#f3f4f6',
+                textColor: '#1f2937'
             }
         };
 
@@ -715,76 +823,21 @@
             
             // A4 dimensions: 210mm x 297mm
             // Reduced margins: 15mm on all sides (instead of 20mm)
-            let html = `
-                <div style="width: 210mm; min-height: 297mm; padding: 15mm; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-                           background: ${theme.background}; color: ${theme.textColor}; direction: rtl; text-align: right;">
-                    <h1 style="color: ${theme.primary}; text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 24px;">${escapeHtml(titles.document)}</h1>
-                    <hr style="border: 1px solid ${theme.primary}; margin: 15px 0;">
-            `;
+            let html = `<div style="width: 210mm; min-height: 297mm; padding: 15mm; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: ${theme.background}; color: ${theme.textColor}; direction: rtl; text-align: right;"><h1 style="color: ${theme.primary}; text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 24px;">${escapeHtml(titles.document)}</h1><hr style="border: 1px solid ${theme.primary}; margin: 15px 0;">`;
 
             // Add problem section (RTL) with word wrapping
             if (problemContent) {
-                html += `
-                    <div style="direction: rtl; text-align: right; margin-bottom: 20px;">
-                        <h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px;">${escapeHtml(titles.problem)}</h2>
-                        <div style="background: ${theme.background === '#ffffff' ? '#f8fafc' : theme.background}; 
-                                   padding: 12px; 
-                                   border-radius: 6px; 
-                                   border-left: 3px solid ${theme.primary}; 
-                                   margin: 8px 0;
-                                   white-space: pre-wrap;
-                                   word-wrap: break-word;
-                                   font-size: 14px;
-                                   line-height: 1.5;">
-                            ${escapeHtml(problemContent)}
-                        </div>
-                    </div>
-                `;
+                html += `<div style="direction: rtl; text-align: right; margin-bottom: 20px;"><h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px;">${escapeHtml(titles.problem)}</h2><div style="background: ${theme.background === '#ffffff' ? '#f8fafc' : theme.background === '#1e293b' ? '#2d3748' :theme.background === '#1f2937' ? '#374151' :theme.background}; padding: 12px; border-radius: 6px; border-left: 3px solid ${theme.primary}; margin: 8px 0;white-space: pre-wrap;word-wrap: break-word;font-size: 14px;line-height: 1.5;">${escapeHtml(problemContent)}</div></div>`;
             }
 
             // Add code section with unified SnapCode-like theme (dark background, consistent colors)
             if (codeContent) {
-                html += `
-                    <div style="direction: ltr; text-align: left; margin-bottom: 20px;">
-                        <h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px; direction: rtl; text-align: right;">${escapeHtml(titles.code)}</h2>
-                        <div style="background: #1e1e1e; 
-                                   color: #d4d4d4; 
-                                   padding: 12px; 
-                                   border-radius: 6px; 
-                                   font-family: 'Consolas', 'Courier New', monospace; 
-                                   margin: 8px 0;
-                                   white-space: pre-wrap;
-                                   word-wrap: break-word;
-                                   overflow-x: hidden;
-                                   direction: ltr;
-                                   text-align: left;
-                                   font-size: 12px;
-                                   line-height: 1.4;
-                                   border: 1px solid #3c3c3c;">
-                            ${escapeHtml(codeContent)}
-                        </div>
-                    </div>
-                `;
+                html += `<div style="direction: ltr; text-align: left; margin-bottom: 20px;"><h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px; direction: rtl; text-align: right;">${escapeHtml(titles.code)}</h2><div style="background: #1e1e1e;color: #d4d4d4;padding: 12px;border-radius: 6px;font-family: 'Consolas', 'Courier New', monospace;margin: 8px 0;white-space: pre-wrap;word-wrap: break-word;overflow-x: hidden;direction: ltr;text-align: left;font-size: 12px;line-height: 1.4;border: 1px solid #3c3c3c;box-shadow: none;">${escapeHtml(codeContent)}</div></div>`;
             }
 
             // Add explanation section (RTL) with word wrapping
             if (explanationContent) {
-                html += `
-                    <div style="direction: rtl; text-align: right;">
-                        <h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px;">${escapeHtml(titles.explanation)}</h2>
-                        <div style="background: ${theme.background === '#ffffff' ? '#f8fafc' : theme.background}; 
-                                   padding: 12px; 
-                                   border-radius: 6px; 
-                                   border-left: 3px solid ${theme.primary}; 
-                                   margin: 8px 0;
-                                   white-space: pre-wrap;
-                                   word-wrap: break-word;
-                                   font-size: 14px;
-                                   line-height: 1.5;">
-                            ${escapeHtml(explanationContent)}
-                        </div>
-                    </div>
-                `;
+                html += `<div style="direction: rtl; text-align: right;"><h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px;">${escapeHtml(titles.explanation)}</h2><div style="background: ${theme.background === '#ffffff' ? '#f8fafc' : theme.background === '#1e293b' ? '#2d3748' :theme.background === '#1f2937' ? '#374151' :theme.background}; padding: 12px; border-radius: 6px; border-left: 3px solid ${theme.primary}; margin: 8px 0;white-space: pre-wrap;word-wrap: break-word;font-size: 14px;line-height: 1.5;">${escapeHtml(explanationContent)}</div></div>`;
             }
 
             html += '</div>';
