@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حل المسائل البرمجية</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #8b5cf6;
+            --dark-bg: #1e1e2e;
+            --code-bg: #1a1a2e;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+        }
+
+        .header h1 {
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+            color: white !important;
+            font-weight: 600;
+            border-radius: 16px 16px 0 0 !important;
+            padding: 1rem 1.5rem;
+            border-bottom: none !important;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, var(--primary-dark), #7c3aed);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(90deg, var(--success-color), #059669);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(90deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .preview-content {
+            background: var(--code-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-container {
+            background: var(--code-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .code-header {
+            background: #25283d;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .code-body {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre;
+            word-wrap: normal;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            margin-left: auto;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .file-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+
+        .alert {
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+
+        .export-section {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .theme-selector {
+            margin: 1rem 0;
+        }
+
+        .theme-option {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .theme-option:hover {
+            transform: translateY(-2px);
+        }
+
+        .theme-option.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        /* PDF Preview Modal */
+        .pdf-preview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pdf-preview-content {
+            background: white;
+            width: 80%;
+            height: 80%;
+            overflow: auto;
+            padding: 20px;
+            border-radius: 10px;
+            direction: ltr;
+        }
+
+        .pdf-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6366f1;
+        }
+
+        .close-preview {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .pdf-preview-content * {
+            user-select: text !important;
+        }
+
+        /* Title inputs */
+        .title-input {
+            margin: 1rem 0;
+        }
+
+        .title-input input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.75rem;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .title-input input::placeholder {
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                margin-bottom: 1rem;
+            }
+            
+            .preview-content,
+            .code-body {
+                max-height: 200px;
+            }
+            
+            .theme-option {
+                display: block;
+                margin: 5px 0;
+            }
+            
+            .pdf-preview-content {
+                width: 95%;
+                height: 90%;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>حل المسائل البرمجية</h1>
+            <p class="text-muted">منصة متكاملة لعرض وحل وتصدير المسائل البرمجية</p>
+        </div>
+
+        <!-- Document Title Section -->
+        <div class="card">
+            <div class="card-header">عنوان المستند</div>
+            <div class="card-body">
+                <div class="title-input">
+                    <input type="text" id="documentTitle" placeholder="أدخل عنوان الملف (سيظهر في ملف PDF)" value="حل المسائل البرمجية">
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Selection -->
+        <div class="card theme-selector">
+            <div class="card-header">ثيمات التصدير</div>
+            <div class="card-body">
+                <div class="theme-option active" data-theme="default" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white;">
+                    افتراضي
+                </div>
+                <div class="theme-option" data-theme="dark" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: white;">
+                    داكن
+                </div>
+                <div class="theme-option" data-theme="light" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); color: #1e293b;">
+                    فاتح
+                </div>
+                <div class="theme-option" data-theme="green" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                    أخضر
+                </div>
+                <div class="theme-option" data-theme="blue" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white;">
+                    أزرق
+                </div>
+            </div>
+        </div>
+
+        <!-- Problem Section -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>المسألة البرمجية</span>
+                <button class="btn btn-sm btn-light" id="uploadProblemBtn">رفع مسألة</button>
+            </div>
+            <div class="card-body">
+                <div class="title-input">
+                    <input type="text" id="problemSectionTitle" placeholder="أدخل عنوان قسم المسألة" value="المسألة البرمجية">
+                </div>
+                <div class="upload-area" id="problemUploadArea">
+                    <div class="upload-icon">📁</div>
+                    <p>اسحب الملف هنا أو انقر للتحميل</p>
+                    <p class="text-muted small">يدعم ملفات .txt فقط</p>
+                </div>
+                <input type="file" id="problemFile" accept=".txt" class="d-none">
+                <div id="problemFileInfo" class="file-info d-none"></div>
+                <div id="problemPreview" class="preview-content d-none"></div>
+                <div id="problemAlert" class="alert alert-danger d-none"></div>
+            </div>
+        </div>
+
+        <!-- Solution Section -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>الحل البرمجي</span>
+                <button class="btn btn-sm btn-light" id="uploadCodeBtn">رفع كود</button>
+            </div>
+            <div class="card-body">
+                <div class="title-input">
+                    <input type="text" id="codeSectionTitle" placeholder="أدخل عنوان قسم الحل" value="الحل البرمجي">
+                </div>
+                <div class="upload-area" id="codeUploadArea">
+                    <div class="upload-icon">💻</div>
+                    <p>اسحب ملف الكود هنا أو انقر للتحميل</p>
+                    <p class="text-muted small">يدعم ملفات .txt, .cpp, .java</p>
+                </div>
+                <input type="file" id="codeFile" accept=".txt,.cpp,.java" class="d-none">
+                <div id="codeFileInfo" class="file-info d-none"></div>
+                <div id="codeContainer" class="code-container d-none">
+                    <div class="code-header">
+                        <div class="code-dot dot-red"></div>
+                        <div class="code-dot dot-yellow"></div>
+                        <div class="code-dot dot-green"></div>
+                        <button class="copy-btn" id="copyCodeBtn">نسخ</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><code id="codePreview" class="language-clike"></code></pre>
+                    </div>
+                </div>
+                <div id="codeAlert" class="alert alert-danger d-none"></div>
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>شرح المسألة والحل</span>
+                <button class="btn btn-sm btn-light" id="uploadExplanationBtn">رفع شرح</button>
+            </div>
+            <div class="card-body">
+                <div class="title-input">
+                    <input type="text" id="explanationSectionTitle" placeholder="أدخل عنوان قسم الشرح" value="شرح المسألة والحل">
+                </div>
+                <div class="upload-area" id="explanationUploadArea">
+                    <div class="upload-icon">📝</div>
+                    <p>اسحب ملف الشرح هنا أو انقر للتحميل</p>
+                    <p class="text-muted small">يدعم ملفات .txt فقط</p>
+                </div>
+                <input type="file" id="explanationFile" accept=".txt" class="d-none">
+                <div id="explanationFileInfo" class="file-info d-none"></div>
+                <div id="explanationPreview" class="preview-content d-none"></div>
+                <div id="explanationAlert" class="alert alert-danger d-none"></div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="card export-section">
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-primary" id="previewPdfBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px;">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.173-.186.257z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                    معاينة PDF
+                </button>
+                <button class="btn btn-success" id="exportPdfBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px;">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    تنزيل PDF
+                </button>
+            </div>
+            <div id="exportAlert" class="alert alert-info mt-3 d-none"></div>
+        </div>
+    </div>
+
+    <!-- PDF Preview Modal -->
+    <div id="pdfPreviewModal" class="pdf-preview-modal">
+        <div class="pdf-preview-content">
+            <div class="pdf-preview-header">
+                <h3>معاينة PDF</h3>
+                <button class="close-preview" id="closePreviewBtn">إغلاق</button>
+            </div>
+            <div id="pdfPreviewContent"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        // Initialize global variables
+        let problemContent = '';
+        let codeContent = '';
+        let explanationContent = '';
+        let currentTheme = 'default';
+
+        // DOM Elements
+        const documentTitleInput = document.getElementById('documentTitle');
+        const problemSectionTitleInput = document.getElementById('problemSectionTitle');
+        const codeSectionTitleInput = document.getElementById('codeSectionTitle');
+        const explanationSectionTitleInput = document.getElementById('explanationSectionTitle');
+
+        const uploadButtons = {
+            problem: document.getElementById('uploadProblemBtn'),
+            code: document.getElementById('uploadCodeBtn'),
+            explanation: document.getElementById('uploadExplanationBtn')
+        };
+
+        const fileInputs = {
+            problem: document.getElementById('problemFile'),
+            code: document.getElementById('codeFile'),
+            explanation: document.getElementById('explanationFile')
+        };
+
+        const uploadAreas = {
+            problem: document.getElementById('problemUploadArea'),
+            code: document.getElementById('codeUploadArea'),
+            explanation: document.getElementById('explanationUploadArea')
+        };
+
+        const previews = {
+            problem: document.getElementById('problemPreview'),
+            code: document.getElementById('codePreview'),
+            explanation: document.getElementById('explanationPreview')
+        };
+
+        const fileInfos = {
+            problem: document.getElementById('problemFileInfo'),
+            code: document.getElementById('codeFileInfo'),
+            explanation: document.getElementById('explanationFileInfo')
+        };
+
+        const alerts = {
+            problem: document.getElementById('problemAlert'),
+            code: document.getElementById('codeAlert'),
+            explanation: document.getElementById('explanationAlert'),
+            export: document.getElementById('exportAlert')
+        };
+
+        const copyCodeBtn = document.getElementById('copyCodeBtn');
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const previewPdfBtn = document.getElementById('previewPdfBtn');
+        const closePreviewBtn = document.getElementById('closePreviewBtn');
+        const pdfPreviewModal = document.getElementById('pdfPreviewModal');
+        const pdfPreviewContent = document.getElementById('pdfPreviewContent');
+        const codeContainer = document.getElementById('codeContainer');
+        const themeOptions = document.querySelectorAll('.theme-option');
+
+        // Theme configuration
+        const themes = {
+            default: {
+                primary: '#6366f1',
+                secondary: '#8b5cf6',
+                background: '#ffffff',
+                textColor: '#000000'
+            },
+            dark: {
+                primary: '#6366f1',
+                secondary: '#8b5cf6',
+                background: '#1e293b',
+                textColor: '#f8fafc'
+            },
+            light: {
+                primary: '#3b82f6',
+                secondary: '#6366f1',
+                background: '#f8fafc',
+                textColor: '#1e293b'
+            },
+            green: {
+                primary: '#10b981',
+                secondary: '#059669',
+                background: '#f0fdf4',
+                textColor: '#1e293b'
+            },
+            blue: {
+                primary: '#3b82f6',
+                secondary: '#1d4ed8',
+                background: '#eff6ff',
+                textColor: '#1e293b'
+            }
+        };
+
+        // Event Listeners
+        Object.keys(uploadButtons).forEach(key => {
+            uploadButtons[key].addEventListener('click', () => fileInputs[key].click());
+            uploadAreas[key].addEventListener('click', () => fileInputs[key].click());
+            
+            fileInputs[key].addEventListener('change', (e) => handleFileUpload(e, key));
+        });
+
+        copyCodeBtn.addEventListener('click', copyCodeToClipboard);
+        exportPdfBtn.addEventListener('click', generatePDF);
+        previewPdfBtn.addEventListener('click', previewPDF);
+        closePreviewBtn.addEventListener('click', () => {
+            pdfPreviewModal.style.display = 'none';
+        });
+
+        // Theme selection
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                currentTheme = option.dataset.theme;
+            });
+        });
+
+        // Handle file uploads
+        function handleFileUpload(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            const allowedExtensions = type === 'code' ? ['.txt', '.cpp', '.java'] : ['.txt'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedExtensions.includes(fileExtension)) {
+                showAlert(alerts[type], `يرجى تحميل ملف بلاحقة ${allowedExtensions.join(', ')} فقط`, 'danger');
+                return;
+            }
+
+            // Show file info
+            const fileSize = (file.size / 1024).toFixed(2);
+            fileInfos[type].textContent = `الملف: ${file.name} | الحجم: ${fileSize} KB`;
+            fileInfos[type].classList.remove('d-none');
+
+            // Read file content
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                
+                if (type === 'problem') {
+                    problemContent = content;
+                    previews.problem.textContent = content;
+                    previews.problem.classList.remove('d-none');
+                } else if (type === 'code') {
+                    codeContent = content;
+                    previews.code.textContent = content;
+                    codeContainer.classList.remove('d-none');
+                    
+                    // Determine language for syntax highlighting
+                    let languageClass = 'language-clike';
+                    if (fileExtension === '.py') {
+                        languageClass = 'language-python';
+                    } else if (fileExtension === '.js') {
+                        languageClass = 'language-javascript';
+                    } else if (fileExtension === '.java') {
+                        languageClass = 'language-java';
+                    } else if (fileExtension === '.cpp') {
+                        languageClass = 'language-cpp';
+                    }
+                    
+                    previews.code.className = languageClass;
+                    
+                    // Apply syntax highlighting
+                    setTimeout(() => {
+                        Prism.highlightElement(previews.code);
+                    }, 100);
+                } else if (type === 'explanation') {
+                    explanationContent = content;
+                    previews.explanation.textContent = content;
+                    previews.explanation.classList.remove('d-none');
+                }
+                
+                showAlert(alerts[type], 'تم تحميل الملف بنجاح!', 'success');
+            };
+            
+            reader.onerror = () => {
+                showAlert(alerts[type], 'حدث خطأ أثناء قراءة الملف', 'danger');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Copy code to clipboard
+        function copyCodeToClipboard() {
+            navigator.clipboard.writeText(codeContent).then(() => {
+                const originalText = copyCodeBtn.textContent;
+                copyCodeBtn.textContent = 'تم النسخ!';
+                setTimeout(() => {
+                    copyCodeBtn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Escape HTML entities for safe display
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Get current titles
+        function getCurrentTitles() {
+            return {
+                document: documentTitleInput.value.trim() || 'حل المسائل البرمجية',
+                problem: problemSectionTitleInput.value.trim() || 'المسألة البرمجية',
+                code: codeSectionTitleInput.value.trim() || 'الحل البرمجي',
+                explanation: explanationSectionTitleInput.value.trim() || 'شرح المسألة والحل'
+            };
+        }
+
+        // Create PDF content HTML with unified SnapCode-like theme for code section
+        function createPdfContentHtml() {
+            if (!problemContent && !codeContent && !explanationContent) {
+                throw new Error('لا يوجد محتوى للتصدير');
+            }
+
+            const theme = themes[currentTheme];
+            const titles = getCurrentTitles();
+            
+            // A4 dimensions: 210mm x 297mm
+            // Reduced margins: 15mm on all sides (instead of 20mm)
+            let html = `
+                <div style="width: 210mm; min-height: 297mm; padding: 15mm; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                           background: ${theme.background}; color: ${theme.textColor}; direction: rtl; text-align: right;">
+                    <h1 style="color: ${theme.primary}; text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 24px;">${escapeHtml(titles.document)}</h1>
+                    <hr style="border: 1px solid ${theme.primary}; margin: 15px 0;">
+            `;
+
+            // Add problem section (RTL) with word wrapping
+            if (problemContent) {
+                html += `
+                    <div style="direction: rtl; text-align: right; margin-bottom: 20px;">
+                        <h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px;">${escapeHtml(titles.problem)}</h2>
+                        <div style="background: ${theme.background === '#ffffff' ? '#f8fafc' : theme.background}; 
+                                   padding: 12px; 
+                                   border-radius: 6px; 
+                                   border-left: 3px solid ${theme.primary}; 
+                                   margin: 8px 0;
+                                   white-space: pre-wrap;
+                                   word-wrap: break-word;
+                                   font-size: 14px;
+                                   line-height: 1.5;">
+                            ${escapeHtml(problemContent)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Add code section with unified SnapCode-like theme (dark background, consistent colors)
+            if (codeContent) {
+                html += `
+                    <div style="direction: ltr; text-align: left; margin-bottom: 20px;">
+                        <h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px; direction: rtl; text-align: right;">${escapeHtml(titles.code)}</h2>
+                        <div style="background: #1e1e1e; 
+                                   color: #d4d4d4; 
+                                   padding: 12px; 
+                                   border-radius: 6px; 
+                                   font-family: 'Consolas', 'Courier New', monospace; 
+                                   margin: 8px 0;
+                                   white-space: pre-wrap;
+                                   word-wrap: break-word;
+                                   overflow-x: hidden;
+                                   direction: ltr;
+                                   text-align: left;
+                                   font-size: 12px;
+                                   line-height: 1.4;
+                                   border: 1px solid #3c3c3c;">
+                            ${escapeHtml(codeContent)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Add explanation section (RTL) with word wrapping
+            if (explanationContent) {
+                html += `
+                    <div style="direction: rtl; text-align: right;">
+                        <h2 style="color: ${theme.secondary}; margin: 15px 0; font-weight: bold; font-size: 20px;">${escapeHtml(titles.explanation)}</h2>
+                        <div style="background: ${theme.background === '#ffffff' ? '#f8fafc' : theme.background}; 
+                                   padding: 12px; 
+                                   border-radius: 6px; 
+                                   border-left: 3px solid ${theme.primary}; 
+                                   margin: 8px 0;
+                                   white-space: pre-wrap;
+                                   word-wrap: break-word;
+                                   font-size: 14px;
+                                   line-height: 1.5;">
+                            ${escapeHtml(explanationContent)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // Preview PDF
+        function previewPDF() {
+            try {
+                const pdfHtml = createPdfContentHtml();
+                pdfPreviewContent.innerHTML = pdfHtml;
+                pdfPreviewModal.style.display = 'flex';
+            } catch (error) {
+                showAlert(alerts.export, error.message, 'warning');
+            }
+        }
+
+        // Generate PDF
+        async function generatePDF() {
+            try {
+                const pdfHtml = createPdfContentHtml();
+                
+                // Create temporary container
+                const tempContainer = document.createElement('div');
+                tempContainer.innerHTML = pdfHtml;
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.top = '-9999px';
+                document.body.appendChild(tempContainer);
+
+                showAlert(alerts.export, 'جارٍ إنشاء ملف PDF...', 'info');
+                
+                // Generate PDF with optimized settings
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4',
+                    compress: true
+                });
+                
+                // Use html2canvas with optimized settings for smaller file size
+                const canvas = await html2canvas(tempContainer, {
+                    scale: 1.2, // Further reduced scale for smaller file size
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null,
+                    logging: false,
+                    letterRendering: true,
+                    imageTimeout: 15000
+                });
+                
+                const imgData = canvas.toDataURL('image/jpeg', 0.7); // Reduced quality to 70% for smaller size
+                const imgWidth = 210;
+                const pageHeight = 295;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // Clean up
+                document.body.removeChild(tempContainer);
+
+                // Save PDF
+                pdf.save('تقرير_المسألة_البرمجية.pdf');
+                showAlert(alerts.export, 'تم إنشاء ملف PDF بنجاح!', 'success');
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showAlert(alerts.export, 'حدث خطأ أثناء إنشاء ملف PDF', 'danger');
+            }
+        }
+
+        // Helper function to show alerts
+        function showAlert(alertElement, message, type) {
+            alertElement.textContent = message;
+            alertElement.className = `alert alert-${type} alert-dismissible fade show d-block`;
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertElement.classList.add('d-none');
+                }, 3000);
+            }
+        }
+
+        // Drag and drop functionality
+        Object.keys(uploadAreas).forEach(key => {
+            const area = uploadAreas[key];
+            
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#6366f1';
+                area.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+            });
+            
+            area.addEventListener('dragleave', () => {
+                area.style.borderColor = '#334155';
+                area.style.backgroundColor = '';
+            });
+            
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#334155';
+                area.style.backgroundColor = '';
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const event = new Event('change');
+                    fileInputs[key].files = files;
+                    fileInputs[key].dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
